@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form-item">
+    Choose Expense Amount: <input type="number" id="number"required>
+    Choose Description:<input type="text" id="text"required>
+    Choose a category:
+    <select name="cars" id="category" required>
+     <Option value="Daily Expense">Daily Expense</Option>
+     <Option value="Investment">Investment</Option>
+     <Option value="Miscellaneous">Miscellaneous</Option>
+
+
+    </select>
+    <button id="submit">Add Expense</button>
+    <ul id="ul"></ul>
+</form>
+<script>
+    let ExpenseAmountItem=document.getElementById('number');
+    let DescriptionItem=document.getElementById('text');
+    let categoryItem=document.getElementById('category');
+    let ulitem=document.getElementById('ul');
+    let formitems=document.getElementById('form-item');
+    
+    formitems.addEventListener('submit',additems)
+    
+    
+    function additems(e)
+    {
+        let ulitem=document.getElementById('ul');
+
+        e.preventDefault();
+        let userExpense={ 
+        ExpenseAmount:ExpenseAmountItem.value,
+        Description:DescriptionItem.value,
+        category:categoryItem.value
+    };
+
+        let userExpense_serialized=JSON.stringify(userExpense);
+  
+    localStorage.setItem(DescriptionItem.value,userExpense_serialized);
+       let li=document.createElement('li');
+       let deleteitem=document.createElement('button');
+       deleteitem.id="deleteitem";
+       deleteitem.className="delete";
+       deleteitem.append(document.createTextNode('Delete Item'));
+   
+       li.append(document.createTextNode(ExpenseAmountItem.value+'-'+'-'+DescriptionItem.value+'-'+categoryItem.value));
+       ulitem.append(li);
+       deleteitem.onclick=()=>{
+        ulitem.removeChild(li);
+        localStorage.removeItem(userExpense.Description);
+       }
+       let edititem=document.createElement('button');
+       edititem.id="edititem";
+       edititem.className="edit";
+       edititem.append(document.createTextNode('Edit Item'));
+
+       edititem.onclick=()=>
+       {
+        ExpenseAmountItem.value=userExpense.ExpenseAmount;
+        DescriptionItem.value=userExpense.Description;
+        categoryItem.value=userExpense.category;
+
+        ulitem.removeChild(li);
+        localStorage.removeItem(userExpense.Description);
+        
+
+       }
+       li.append(deleteitem,edititem);
+
+    }
+    
+   </script>
+   
+</body>
+
+</html>
