@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body> 
+    <script>
+     let blogs=[];
+      const createblogs=async function createblogs()
+      {
+        blogs=[];
+
+        function createPost1()
+        {
+           return new Promise((resolve,reject)=>{
+            setTimeout(()=>
+            {
+                blogs.push({title:'Post 1'});
+                resolve('Post1');
+            },1000)
+           })
+            
+        }
+        function createPost2()
+        {
+          return new Promise((resolve,reject)=>{
+            setTimeout(()=>
+            {
+                blogs.push({title:'Post 2'});
+                resolve('Post 2');
+            },2000)
+           })
+            
+        }
+        function deletepost()
+        {
+           return new Promise((resolve,reject)=>{
+            setTimeout(()=>
+            {  
+                if(blogs.length>0)
+                {
+                const  poppedElement=blogs.pop();
+                resolve(poppedElement.title);
+            }
+              else{
+                  reject('Array is Empty');
+             }   
+             },3000)
+            })
+            
+         }
+        function lastuserActivitytime()
+        {
+           return new Promise((resolve,reject)=>{
+              setTimeout(()=>{
+                  let time=new Date().getTime();
+                  resolve(time);
+              },1000)
+          })  
+        }
+        function lastuserposttime()
+        {
+           let time =new Date().getTime();
+            return new Promise((resolve,reject)=>{
+              setTimeout(()=>{
+                  time=new Date().getTime()-time
+                  resolve(time);
+              },1000)
+          })  
+        }
+     let createpost=await createPost1();
+     console.log(createpost);
+     let lasttime= await lastuserActivitytime();
+     console.log(lasttime);
+     let createPost2nd=await createPost2();
+    console.log(createPost2nd);
+    let lastposttime= await lastuserposttime();
+     console.log(lastposttime); 
+     console.log(blogs);
+    let deletepostall=await deletepost();
+    return deletepostall;
+
+    }
+
+    createblogs().then((m)=>console.log(m));
+    console.log(blogs);
+    </script>
+</body>
+</html>
