@@ -91,6 +91,12 @@
     ulitem.appendChild(li);
 
   };
+  window.addEventListener('DOMContentLoaded')
+  {
+    axios.get("https://crudcrud.com/api/39c140b00e1749ab94ab027eb473f670/AppointmentDetails")
+    .then((resolve)=>console.log(resolve))
+    .catch((error)=>console.log(error));
+  }
   </script>
  
 </body>
