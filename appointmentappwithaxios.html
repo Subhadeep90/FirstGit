@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+form{
+    text-align: center;
+    border:black 5px;
+    margin-left :220px;
+    margin-top: 50px;
+    margin-right: 220px;
+    background-color: aquamarine;
+    
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head> 
+
+<body>
+<form id="form">
+ <h5>Name:<input type="text" id="text"></h5>
+ <h5>Email:<input type="email" id="email"></h5>
+ <button id="submit">Submit</button>
+ <ul id="ul"></ul>
+
+</form>
+<script>
+ let NameItem=document.getElementById('text');
+let EmailItem=document.getElementById('email');
+let formitem=document.getElementById('form');
+let ulitem=document.getElementById('ul')
+function addItems(e)
+{
+    obj={
+    Name:NameItem.value,
+    Email:EmailItem.value,
+};
+
+    e.preventDefault();
+    axios.post("https://crudcrud.com/api/39c140b00e1749ab94ab027eb473f670/AppointmentDetailsfinals",obj)
+    .then((resolve)=>console.log(resolve.data))
+    .catch((error)=>console.log(error))
+}
+formitem.addEventListener('submit',addItems);
+function showOnscreen(obj)
+{
+
+    let li=document.createElement('li')
+    li.append(obj.Name+"----"+obj.Email);
+    let Deletebutton=document.createElement('button')
+    Deletebutton.append(document.createTextNode('Delete'))
+    let Editbutton=document.createElement('button')
+    Editbutton.append(document.createTextNode('Edit'))
+    li.append(Deletebutton,Editbutton);    
+  
+    ulitem.append(li);
+    }
+    
+    
+    
+    
+
+window.addEventListener('DOMContentLoaded',()=>
+{
+    axios.get("https://crudcrud.com/api/39c140b00e1749ab94ab027eb473f670/AppointmentDetailsfinals")
+    .then((resolve)=>{
+    console.log(resolve.data)
+    //let li=document.createElement('li')
+    for(var i=0;i<resolve.data.length;i++)
+    {
+     showOnscreen(resolve.data[i]);
+    }
+}
+ )  .catch((error)=>console.log(error))
+})
+</script> 
+
+</body>
+</html>
