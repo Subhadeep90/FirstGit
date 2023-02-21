@@ -20,18 +20,20 @@ form{
 </head> 
 
 <body>
+<h1>Please fill up</h1>
 <form id="form">
- <h5>Name:<input type="text" id="text"></h5>
+ <h5>Name:<input type="text" id="text" ></h5>
  <h5>Email:<input type="email" id="email"></h5>
  <button id="submit">Submit</button>
- <ul id="ul"></ul>
-
 </form>
+<ul id="ul"></ul>
+
 <script>
  let NameItem=document.getElementById('text');
 let EmailItem=document.getElementById('email');
 let formitem=document.getElementById('form');
 let ulitem=document.getElementById('ul')
+
 function addItems(e)
 {
     obj={
@@ -40,11 +42,35 @@ function addItems(e)
 };
 
     e.preventDefault();
-    axios.post("https://crudcrud.com/api/39c140b00e1749ab94ab027eb473f670/AppointmentDetailsfinals",obj)
-    .then((resolve)=>console.log(resolve.data))
+    axios.post("https://crudcrud.com/api/4ec13a4353f4469ea217ca76b69a7afd/AppointmentDetailsfinal",obj)
+    
+
+    .then((resolve)=>{
+        showOnscreen(obj)}) 
     .catch((error)=>console.log(error))
 }
+
 formitem.addEventListener('submit',addItems);
+   
+
+    window.addEventListener('DOMContentLoaded',()=>
+{
+    axios.get("https://crudcrud.com/api/4ec13a4353f4469ea217ca76b69a7afd/AppointmentDetailsfinal")
+    .then((resolve)=>{
+    //console.log(resolve.data)
+    //let data=resolve;
+    //let li=document.createElement('li')
+    for(var i=0;i<resolve.data.length;i++)
+    {
+     showOnscreen(resolve.data[i]);
+
+    }
+}
+ )  .catch((error)=>console.log(error))
+
+
+
+})
 function showOnscreen(obj)
 {
 
@@ -52,30 +78,27 @@ function showOnscreen(obj)
     li.append(obj.Name+"----"+obj.Email);
     let Deletebutton=document.createElement('button')
     Deletebutton.append(document.createTextNode('Delete'))
+    Deletebutton.id="deletebutton";
+    li.append(Deletebutton); 
+    Deletebutton.addEventListener('click',DeleteItems)
+    function DeleteItems(e)
+    {
+        //let id=obj._id;
+         //console.log(id);
+        axios.delete(`https://crudcrud.com/api/4ec13a4353f4469ea217ca76b69a7afd/AppointmentDetailsfinal/${obj._id}`)
+        .then((resolve)=>console.log(resolve))
+        .catch((error)=>console.log(error));
+        let li=e.target.parentElement;
+        ulitem.removeChild(li);
+    }
     let Editbutton=document.createElement('button')
     Editbutton.append(document.createTextNode('Edit'))
-    li.append(Deletebutton,Editbutton);    
-  
+    li.append(Editbutton);
+    //console.log(obj);
+   
     ulitem.append(li);
-    }
-    
-    
-    
-    
+} 
 
-window.addEventListener('DOMContentLoaded',()=>
-{
-    axios.get("https://crudcrud.com/api/39c140b00e1749ab94ab027eb473f670/AppointmentDetailsfinals")
-    .then((resolve)=>{
-    console.log(resolve.data)
-    //let li=document.createElement('li')
-    for(var i=0;i<resolve.data.length;i++)
-    {
-     showOnscreen(resolve.data[i]);
-    }
-}
- )  .catch((error)=>console.log(error))
-})
 </script> 
 
 </body>
