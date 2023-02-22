@@ -28,6 +28,7 @@ form{
 </form>
 <ul id="ul"></ul>
 
+
 <script>
  let NameItem=document.getElementById('text');
 let EmailItem=document.getElementById('email');
@@ -42,7 +43,7 @@ function addItems(e)
 };
 
     e.preventDefault();
-    axios.post("https://crudcrud.com/api/4ec13a4353f4469ea217ca76b69a7afd/AppointmentDetailsfinal",obj)
+    axios.post("https://crudcrud.com/api/4463909ee37d4e2380cf84afa6deccae/AppointmentDetailsfinal",obj)
     
 
     .then((resolve)=>{
@@ -55,7 +56,7 @@ formitem.addEventListener('submit',addItems);
 
     window.addEventListener('DOMContentLoaded',()=>
 {
-    axios.get("https://crudcrud.com/api/4ec13a4353f4469ea217ca76b69a7afd/AppointmentDetailsfinal")
+    axios.get("https://crudcrud.com/api/4463909ee37d4e2380cf84afa6deccae/AppointmentDetailsfinal")
     .then((resolve)=>{
     //console.log(resolve.data)
     //let data=resolve;
@@ -85,7 +86,7 @@ function showOnscreen(obj)
     {
         //let id=obj._id;
          //console.log(id);
-        axios.delete(`https://crudcrud.com/api/4ec13a4353f4469ea217ca76b69a7afd/AppointmentDetailsfinal/${obj._id}`)
+        axios.delete(`https://crudcrud.com/api/4463909ee37d4e2380cf84afa6deccae/AppointmentDetailsfinal/${obj._id}`)
         .then((resolve)=>console.log(resolve))
         .catch((error)=>console.log(error));
         let li=e.target.parentElement;
@@ -93,7 +94,20 @@ function showOnscreen(obj)
     }
     let Editbutton=document.createElement('button')
     Editbutton.append(document.createTextNode('Edit'))
+    Editbutton.id="Editbutton"
     li.append(Editbutton);
+    Editbutton.addEventListener('click',EditItems)
+    function EditItems(e)
+    {
+        document.getElementById('text').value=obj.Name;
+        document.getElementById('email').value=obj.Email;
+        // axios.delete(`https://crudcrud.com/api/4ec13a4353f4469ea217ca76b69a7afd/AppointmentDetailsfinal/${obj._id}`)
+        // .then((resolve)=>console.log(resolve))
+        // .catch((error)=>console.log(error));
+        // let li=e.target.parentElement;
+        // ulitem.removeChild(li);
+        DeleteItems(e);
+            }
     //console.log(obj);
    
     ulitem.append(li);
