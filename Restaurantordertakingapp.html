@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrderItems</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        form{
+           text-align: center; 
+           background-color:coral;
+           
+        }
+        h1{
+            color: blue;
+            text-align: center;
+        }
+        h3{
+            text-align: center;
+            color:blueviolet;
+        }
+        ul{
+            text-align: center;
+            color:brown;
+        }
+        body{
+            background-color: aquamarine;
+        }
+        ul{
+            text-align: center;
+            background-color: darkorange;
+        }
+    </style>
+</head>
+
+<body>
+<h1>PLACE YOUR ORDER</h1>
+<form id="formitem">
+ <h4>Choose Price:<input type="number" id="price"></h4> 
+ <h4>Choose Dish:<input type="text"id="dishName"></h4>
+ <h4>Choose Table:<select id="WhichTable">
+     <option value="Table 1" id="Table1">Table 1</option>
+     <option value="Table 2" id="Table2">Table 2</option>
+     <option value="Table 3"id="Table3">Table 3</option>
+ </select></h4>
+ <button id="submit">Submit</button>
+</form>
+<h3>Order Details</h3>
+<ul id="ulitem">
+ <h4 id="Table 1">Table 1 </h4>
+ <h4 id="Table 2">Table 2 :</h4>
+ <h4 id="Table 3">Table 3 :</h4>
+
+
+</ul>
+<script>
+ let PriceList=document.getElementById('price');
+ let Dish=document.getElementById('dishName');
+ let Table=document.getElementById("WhichTable")
+ let Formlist=document.getElementById('formitem');
+ let Table1=document.getElementById('Table 1');
+ let Table2=document.getElementById('Table 2');
+ let Table3=document.getElementById('Table 3');
+ let option1=document.getElementById('Table1');
+ let option2=document.getElementById('Table2');
+ let option3=document.getElementById('Table3');
+ let ulitem=document.getElementById('ulitem');
+ Formlist.addEventListener('submit',addMenutoyourchart)
+ function addMenutoyourchart(e)
+ {
+   e.preventDefault();
+    obj={
+       PriceListName:PriceList.value,
+       DishName:Dish.value,
+       TableName:Table.value
+
+   };
+   axios.post("https://crudcrud.com/api/e7f2a23c840b47849e7b51084058f68b/OrderedItems",obj)
+   .then((resolve)=>console.log(resolve))
+   .catch((error)=>console.log(error));
+   
+   showOnscreen(obj);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+
+axios.get("https://crudcrud.com/api/e7f2a23c840b47849e7b51084058f68b/OrderedItems")
+.then((resolve)=>{
+    for (var i=0;i<resolve.data.length;i++)
+    {
+        showOnscreen(resolve.data[i])
+    }
+})
+.catch((error)=>console.log(error));
+})
+
+function showOnscreen(obj)
+{
+  
+    let li=document.createElement('li');
+  let button=document.createElement('button');
+  button.append(document.createTextNode('Delete Order'));
+  button.addEventListener('click',DeleteItems)
+  //console.log(obj._id)
+  function DeleteItems(e)
+{
+  axios.delete(`https://crudcrud.com/api/e7f2a23c840b47849e7b51084058f68b/OrderedItems/${obj._id}`)
+  .then((resolve)=>  
+  console.log(resolve)
+  )
+
+  .catch((error)=>console.log(error));
+  let li=e.target.parentElement;
+  li.parentElement.removeChild(li);
+  
+}
+  li.append(obj.PriceListName+" "+obj.DishName +" "+obj.TableName)
+  if(obj.TableName==option1.value)
+   {
+    Table1.append(li);
+}
+else if(obj.TableName==option2.value)
+{
+   Table2.append(li);
+}
+else
+{
+    Table3.append(li);
+}
+li.append(button);
+}
+</script>
+</body>
+</html>
